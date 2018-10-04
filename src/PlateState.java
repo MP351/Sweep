@@ -2,48 +2,49 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PlateState {
-    private ImageIcon image;
-    private Statics.FieldStates fieldState;
+    public enum FieldStates { OPENED, CLOSED, FLAGGED, BOMBED, NOBOMB };
+    private Image image;
+    private FieldStates fieldState;
 
-    public PlateState(Statics.FieldStates state) {
-        this.fieldState = state;
+    public PlateState() {
+        this.fieldState = FieldStates.CLOSED;
         assignImages();
     }
 
     private void assignImages() {
-        image = new ImageIcon(getClass().getResource("img/" + fieldState.toString().toLowerCase() + ".png"));
+        image = new ImageIcon(getClass().getResource("img/" + fieldState.toString().toLowerCase() + ".png")).getImage();
     }
 
-    public Statics.FieldStates getFieldState() {
+    public FieldStates getFieldState() {
         return fieldState;
     }
 
     public Image getImage() {
-        return image.getImage();
+        return image;
     }
 
     public void setFieldFlagged() {
-        fieldState = Statics.FieldStates.FLAGGED;
+        fieldState = FieldStates.FLAGGED;
         assignImages();
     }
 
     public void setFieldOpened() {
-        fieldState = Statics.FieldStates.OPENED;
+        fieldState = FieldStates.OPENED;
         assignImages();
     }
 
     public void setFieldClosed() {
-        fieldState = Statics.FieldStates.CLOSED;
+        fieldState = FieldStates.CLOSED;
         assignImages();
     }
 
     public void setFieldBombed() {
-        fieldState = Statics.FieldStates.BOMBED;
+        fieldState = FieldStates.BOMBED;
         assignImages();
     }
 
     public void setFieldNoBomb() {
-        fieldState = Statics.FieldStates.NOBOMB;
+        fieldState = FieldStates.NOBOMB;
         assignImages();
     }
 
@@ -51,11 +52,19 @@ public class PlateState {
         setFieldClosed();
     }
 
-    public boolean isIt(Statics.FieldStates state) {
-        return fieldState == state ? true : false;
+    public boolean isClosed() {
+        return fieldState == FieldStates.CLOSED ? true : false;
     }
 
-    public boolean isClosed() {
-        return fieldState == Statics.FieldStates.CLOSED ? true : false;
+    public boolean isFlagged() {
+        return fieldState == FieldStates.FLAGGED ? true : false;
+    }
+
+    public boolean isBombed() {
+        return fieldState == FieldStates.BOMBED ? true : false;
+    }
+
+    public boolean isNoBomb() {
+        return fieldState == FieldStates.NOBOMB ? true : false;
     }
 }

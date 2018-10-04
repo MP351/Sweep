@@ -2,7 +2,6 @@ public class Matrix {
     private int x_count;
     private int y_count;
     private int binMatrix[][];
-    private Statics.FieldTypes fieldMatrix[][];
     private int countOfBombs;
 
     public Matrix(int x_count, int y_count) {
@@ -11,7 +10,6 @@ public class Matrix {
 
         countOfBombs = Math.round(x_count * y_count / 7);
         binMatrix = new int[x_count][y_count];
-        fieldMatrix = new Statics.FieldTypes[x_count][y_count];
 
         genMatrix();
     }
@@ -21,53 +19,19 @@ public class Matrix {
         while (bombGenRemaining != 0) {
             int x = (int) Math.round(Math.random() * (x_count-1));
             int y = (int) Math.round(Math.random() * (y_count-1));
-            System.out.println("X - " + x + "; Y - " + y);
-            binMatrix[x][y] = 1;
+
+            binMatrix[x][y] = -1;
 
             bombGenRemaining--;
         }
-
         makeFieldMatrix();
     }
 
     private void makeFieldMatrix() {
-        int count;
         for (int i=0;i<x_count;i++) {
             for (int j=0;j<y_count;j++) {
-                if (binMatrix[i][j] == 1) {
-                    fieldMatrix[i][j] = Statics.FieldTypes.BOMB;
-                    continue;
-                } else {
-                    count = countBombsNear(i, j);
-                    switch (count) {
-                        case 0:
-                            fieldMatrix[i][j] = Statics.FieldTypes.ZERO;
-                            break;
-                        case 1:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM1;
-                            break;
-                        case 2:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM2;
-                            break;
-                        case 3:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM3;
-                            break;
-                        case 4:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM4;
-                            break;
-                        case 5:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM5;
-                            break;
-                        case 6:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM6;
-                            break;
-                        case 7:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM7;
-                            break;
-                        case 8:
-                            fieldMatrix[i][j] = Statics.FieldTypes.NUM8;
-                            break;
-                    }
+                if (binMatrix[i][j] != -1){
+                    binMatrix[i][j] = countBombsNear(i, j);
                 }
             }
         }
@@ -81,15 +45,15 @@ public class Matrix {
             for (int j=y_near;j<y_near+3;j++) {
                 if (i < 0 || j < 0 || i >= x_count || j >= y_count)
                     continue;
-                else if (binMatrix[i][j] == 1)
+                else if (binMatrix[i][j] == -1)
                     count++;
             }
         }
         return count;
     }
 
-    public Statics.FieldTypes[][] getMatrix() {
-        return fieldMatrix;
+    public int[][] getMatrix() {
+        return binMatrix;
     }
 
     public int getCountOfBombs() {

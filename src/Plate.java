@@ -6,11 +6,7 @@ public class Plate {
 
     public Plate(PlateType type) {
         this.type = type;
-        this.state = new PlateState(Statics.FieldStates.CLOSED);
-    }
-
-    public PlateType getType() {
-        return type;
+        this.state = new PlateState();
     }
 
     public boolean isClosed() {
@@ -18,27 +14,45 @@ public class Plate {
     }
 
     public boolean isFlagged() {
-        return state.isIt(Statics.FieldStates.FLAGGED);
+        return state.isFlagged();
+    }
+
+    public boolean isBombed() {
+        return state.isBombed();
+    }
+
+    public boolean isNoBomb() {
+        return state.isNoBomb();
     }
 
     public boolean isBomb() {
-        return type.isIt(Statics.FieldTypes.BOMB);
+        return type.isBomb();
     }
 
-    public int setOpened() {
-        if (state.isIt(Statics.FieldStates.CLOSED)) {
+    public boolean isZero() {
+        return type.isZero();
+    }
+
+    public boolean isNumber() {
+        return type.isNumber();
+    }
+
+    //TODO
+    public void setOpened() {
+        if (state.isClosed()) {
+            GameManager.plateOpen();
             state.setFieldOpened();
-            return 1;
         } else {
-            return 0;
         }
     }
 
     public void setFlagged() {
+        GameManager.flagged();
         state.setFieldFlagged();
     }
 
     public void setBombed() {
+        GameManager.bombOpen();
         state.setFieldBombed();
     }
 
@@ -47,6 +61,7 @@ public class Plate {
     }
 
     public void unflag() {
+        GameManager.unflagged();
         state.setFieldUnflagged();
     }
 

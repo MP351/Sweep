@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class JavaSweeper extends JFrame {
-    private JLabel label;
     private Game game;
+    private GameManager gm;
 
     public static void main(String[] args) {
         new JavaSweeper();
@@ -11,6 +11,7 @@ public class JavaSweeper extends JFrame {
 
     private JavaSweeper() {
         game = new Game(Statics.COLS, Statics.ROWS);
+        gm = new GameManager(game);
         game.start();
         initPanel();
         initLabel();
@@ -31,7 +32,6 @@ public class JavaSweeper extends JFrame {
     }
 
     private void initLabel() {
-        label = new JLabel("Найди бомбы!");
-        add (label, BorderLayout.SOUTH);
+        add (game.getLabel(), BorderLayout.SOUTH);
     }
 }
